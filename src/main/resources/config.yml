@@ -1,0 +1,10 @@
+
+'world':
+  drops:
+    GRASS_BLOCK:
+      DIRT: 1
+      messages:
+        - '&4You cannot use silk touch to break grass. You got a dirt block.'
+
+no-permission: '&4You have not the permission to break this block.'
+no-permission-action: 'none'    # You can set either 'prevent breaking' or 'none'
