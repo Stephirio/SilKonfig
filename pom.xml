@@ -45,6 +45,28 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <relocations>
+                                <relocation>
+                                    <!-- Avoid Name Conflics -->
+                                    <pattern>com.lewdev.probabilitylib</pattern>
+                                    <shadedPattern>***<!--YOUR.PACKAGE.HERE-->***.probabilitylib</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -63,6 +85,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -71,6 +97,11 @@
             <artifactId>spigot-api</artifactId>
             <version>1.16.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.lewysDavies</groupId>
+            <artifactId>Java-Probability-Collection</artifactId>
+            <version>v0.8</version>
         </dependency>
     </dependencies>
 </project>

@@ -2,9 +2,27 @@
 'world':
   drops:
     GRASS_BLOCK:
-      DIRT: 1
+      DIRT:
+        - 20%
+        - 3
+      DIAMOND:
+        - 50%
+        - 1
+      SPRUCE_LOG:
+        - 20%
+        - 5
       messages:
-        - '&4You cannot use silk touch to break grass. You got a dirt block.'
+        - '&2You cannot use Silk Touch on a block of grass. You get a simple dirt block.'
+
+    DIAMOND_ORE:
+      DIAMOND:
+        - 50%
+        - 2
+      DIAMOND_ORE:
+        - 50%
+        - 1
+      # You won't get a message if you don't put it.
 
 no-permission: '&4You have not the permission to break this block.'
 no-permission-action: 'none'    # You can set either 'prevent breaking' or 'none'
+reload-message: '&2The plugin has been reloaded successifuly.'

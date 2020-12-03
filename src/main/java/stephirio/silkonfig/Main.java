@@ -2,8 +2,8 @@ package stephirio.silkonfig;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
+import stephirio.silkonfig.commands.Reload;
 import stephirio.silkonfig.events.BlockBreak;
-
 public final class Main extends JavaPlugin {
 
     public static String plugin_prefix = ChatColor.GREEN + "[" + ChatColor.GOLD + "SilKonfig" + ChatColor.GREEN + "]";
@@ -19,6 +19,7 @@ public final class Main extends JavaPlugin {
         successLog("Loading libraries...");
         successLog("Registering events...");
         getServer().getPluginManager().registerEvents(new BlockBreak(this), this);
+        getCommand("silkonfig").setExecutor(new Reload(this));
         successLog("Developer: Stephirio");
         successLog("Plugin started!");
     }

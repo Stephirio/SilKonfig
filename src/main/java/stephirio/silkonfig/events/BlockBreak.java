@@ -11,6 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import stephirio.silkonfig.Main;
+import stephirio.silkonfig.utils.ProbabilityCollection;
+
+import java.util.ArrayList;
 
 public class BlockBreak implements Listener {
 
@@ -23,6 +26,9 @@ public class BlockBreak implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
+
+
+
 
         Player player = event.getPlayer();
         Block broken_block = event.getBlock();
@@ -37,21 +43,36 @@ public class BlockBreak implements Listener {
                     if (player.hasPermission("silkonfig.break." + previous_block)) {
                         broken_block.getWorld().getBlockAt(broken_block.getLocation()).setType(Material.AIR);
                         event.getBlock().getDrops().clear();
+                        ConfigurationSection previous_block_config =
+                                drops_config.getConfigurationSection(previous_block);
 
-                        for (String drop : drops_config.getConfigurationSection(previous_block).getKeys(true)) {
+                        ProbabilityCollection<String> collection = new ProbabilityCollection<>();
+
+
+                        for (String drop : previous_block_config.getKeys(true)) {
                             if (!drop.equals("messages"))
-                                broken_block.getWorld().dropItemNaturally(event.getBlock().getLocation(),
-                                        new ItemStack(Material.valueOf((String) drop), drops_config
-                                                .getConfigurationSection(previous_block).getInt(drop)));
+                                collection.add(drop, Integer.parseInt(previous_block_config.getList(drop).get(0)
+                                        .toString().replace("%", "")));
                         }
 
-                        for (Object message : drops_config.getConfigurationSection(previous_block).getList("messages"))
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', (String) message));
+                        String dropped_item = collection.get();
 
+                        broken_block.getWorld().dropItemNaturally(event.getBlock().getLocation(),
+                                new ItemStack(Material.valueOf(dropped_item),
+                                        (Integer) previous_block_config.getList(dropped_item).get(1)));
+
+                        if (drops_config.getConfigurationSection(previous_block).getList("messages") != null) {
+                            for (Object message : drops_config.getConfigurationSection(previous_block)
+                                    .getList("messages"))
+                                player.sendMessage(plugin.plugin_prefix + ChatColor.translateAlternateColorCodes('&',
+                                        (String) message));
+                        }
                     } else {
-                        if (plugin.getConfig().getString("no-permission-action").equalsIgnoreCase("prevent breaking")) {
+                        if (plugin.getConfig().getString("no-permission-action")
+                                .equalsIgnoreCase("prevent breaking")) {
                             event.setCancelled(true);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("no-permission")));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                    plugin.getConfig().getString("no-permission")));
                         }
                     }
                 }
