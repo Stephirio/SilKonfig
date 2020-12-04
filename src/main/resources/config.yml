@@ -23,6 +23,7 @@
         - 1
       # You won't get a message if you don't put it.
 
+prefix: '&2[&6&lSilKonfig&r&2]&r '
 no-permission: '&4You have not the permission to break this block.'
 no-permission-action: 'none'    # You can set either 'prevent breaking' or 'none'
 reload-message: '&2The plugin has been reloaded successifuly.'
